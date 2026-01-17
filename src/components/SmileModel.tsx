@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
@@ -33,17 +33,23 @@ function Loader() {
 }
 
 function Model() {
-  const { scene } = useGLTF("/tooth-draco.glb", true);
+  // POINTING TO YOUR NEW TRANSFORMED FILE
+  const { scene } = useGLTF("/tooth.glb", "https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
 
-  // Apply a high-gloss finish to all materials in the model
   scene.traverse((child: any) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
-      // This makes the tooth look like polished ceramic/enamel
-      child.material.roughness = 0.1;
-      child.material.metalness = 0.2;
-      child.material.envMapIntensity = 2; // Boosts reflections
+
+      // LUXURY MATERIAL INJECTION
+      child.material.color.set("#ffffff");     // Force pure white
+      child.material.roughness = 0.05;         // Super shiny
+      child.material.metalness = 0.3;          // Pearlescent look
+      child.material.envMapIntensity = 2.5;    // High reflection
+
+      // SUBTLE INTERNAL GLOW
+      child.material.emissive.set("#00f2ff");
+      child.material.emissiveIntensity = 0.15;
     }
   });
 
@@ -61,32 +67,21 @@ export default function SmileModel() {
     <div className="h-full w-full cursor-grab active:cursor-grabbing relative">
       <Canvas
         shadows
-        gl={{ antialias: true, stencil: false, depth: true }}
+        flat // Makes colors pop more
+        gl={{
+          antialias: true,
+          toneMappingExposure: 1.2 // Global brightness boost
+        }}
         dpr={[1, 2]}
       >
         <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={22} />
 
-        {/* --- TRIPLE LIGHTING ENGINE --- */}
-        {/* 1. Ambient: Soft overall brightness */}
+        {/* --- LIGHTING RIG --- */}
         <ambientLight intensity={1.5} />
+        <spotLight position={[5, 10, 5]} angle={0.3} penumbra={1} intensity={8} castShadow />
+        <pointLight position={[-10, 5, -5]} color="#00f2ff" intensity={20} />
+        <pointLight position={[10, -5, 5]} intensity={10} color="#ffffff" />
 
-        {/* 2. Key Light: Main Brightness from front-top */}
-        <spotLight
-          position={[5, 10, 5]}
-          angle={0.3}
-          penumbra={1}
-          intensity={6}
-          castShadow
-          shadow-placeholder-bias={0.001}
-        />
-
-        {/* 3. Rim Light: Electric Cyan light from behind to pop the edges */}
-        <pointLight position={[-10, 5, -5]} color="#00f2ff" intensity={15} />
-
-        {/* 4. Fill Light: Extra brightness from the other side */}
-        <pointLight position={[10, -5, 5]} intensity={8} color="#ffffff" />
-
-        {/* 5. Environment: High-end studio lighting reflections */}
         <Environment preset="city" />
 
         <Suspense fallback={<Loader />}>
@@ -95,26 +90,18 @@ export default function SmileModel() {
           </Float>
 
           <EffectComposer multisampling={4}>
-            {/* Bloom: Makes the bright spots "glow" */}
             <Bloom
               mipmapBlur
-              intensity={1.5}
-              luminanceThreshold={0.2}
-              luminanceSmoothing={0.9}
+              intensity={1.8}
+              luminanceThreshold={0.15}
+              luminanceSmoothing={0.8}
             />
             <Noise opacity={0.02} />
             <Vignette eskil={false} offset={0.1} darkness={1.1} />
-            <ToneMapping middleGrey={0.6} maxLuminance={16.0} />
           </EffectComposer>
         </Suspense>
 
-        <ContactShadows
-          position={[0, -2.8, 0]}
-          opacity={0.6}
-          scale={12}
-          blur={2.5}
-          far={4}
-        />
+        <ContactShadows position={[0, -2.8, 0]} opacity={0.6} scale={12} blur={2.5} far={4} />
 
         <OrbitControls
           enableZoom={false}
@@ -128,4 +115,5 @@ export default function SmileModel() {
   );
 }
 
-useGLTF.preload("/tooth-draco.glb");
+// Preload the specific file and decoder
+useGLTF.preload("/tooth.glb", "https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
