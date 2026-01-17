@@ -87,7 +87,7 @@ export default function Home() {
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="relative w-full lg:w-1/2 h-[700px] md:h-[850px] flex items-center justify-center"
           >
-            {/* <SmileModel /> */}
+            <SmileModel />
 
             {/* Floating Data Badge */}
             <div className="absolute top-10 right-0 glass p-6 rounded-3xl max-w-[220px] border border-white/10 backdrop-blur-xl z-20">

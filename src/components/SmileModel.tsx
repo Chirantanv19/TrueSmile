@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
@@ -7,9 +7,11 @@ import {
   ContactShadows,
   useGLTF,
   Html,
-  useProgress
+  useProgress,
+  Environment,
+  PerspectiveCamera
 } from "@react-three/drei";
-import { EffectComposer, Bloom, Noise, Vignette } from "@react-three/postprocessing";
+import { EffectComposer, Bloom, Noise, Vignette, ToneMapping } from "@react-three/postprocessing";
 
 function Loader() {
   const { progress } = useProgress();
@@ -31,63 +33,93 @@ function Loader() {
 }
 
 function Model() {
-  // Use 'draco' in the loader to handle the compression
   const { scene } = useGLTF("/tooth-draco.glb", true);
-  const [hovered, setHovered] = useState(false);
+
+  // Apply a high-gloss finish to all materials in the model
+  scene.traverse((child: any) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+      // This makes the tooth look like polished ceramic/enamel
+      child.material.roughness = 0.1;
+      child.material.metalness = 0.2;
+      child.material.envMapIntensity = 2; // Boosts reflections
+    }
+  });
 
   return (
     <primitive
       object={scene}
-      scale={2.5}
-      position={[0, -0.5, 0]}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
+      scale={2.8}
+      position={[0, -0.8, 0]}
     />
   );
 }
 
 export default function SmileModel() {
   return (
-    <div className="h-[600px] w-full cursor-grab active:cursor-grabbing relative">
+    <div className="h-full w-full cursor-grab active:cursor-grabbing relative">
       <Canvas
         shadows
-        dpr={[1, 2]} // Performance optimization
-        camera={{ position: [0, 0, 10], fov: 25 }}
+        gl={{ antialias: true, stencil: false, depth: true }}
+        dpr={[1, 2]}
       >
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[-10, -10, -10]} color="#00f2ff" intensity={5} />
+        <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={22} />
+
+        {/* --- TRIPLE LIGHTING ENGINE --- */}
+        {/* 1. Ambient: Soft overall brightness */}
+        <ambientLight intensity={1.5} />
+
+        {/* 2. Key Light: Main Brightness from front-top */}
+        <spotLight
+          position={[5, 10, 5]}
+          angle={0.3}
+          penumbra={1}
+          intensity={6}
+          castShadow
+          shadow-placeholder-bias={0.001}
+        />
+
+        {/* 3. Rim Light: Electric Cyan light from behind to pop the edges */}
+        <pointLight position={[-10, 5, -5]} color="#00f2ff" intensity={15} />
+
+        {/* 4. Fill Light: Extra brightness from the other side */}
+        <pointLight position={[10, -5, 5]} intensity={8} color="#ffffff" />
+
+        {/* 5. Environment: High-end studio lighting reflections */}
+        <Environment preset="city" />
 
         <Suspense fallback={<Loader />}>
-          <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
+          <Float speed={2} rotationIntensity={0.8} floatIntensity={0.8}>
             <Model />
           </Float>
 
-          {/* REPAIRED EFFECT COMPOSER */}
           <EffectComposer multisampling={4}>
+            {/* Bloom: Makes the bright spots "glow" */}
             <Bloom
               mipmapBlur
-              intensity={1.2}
-              luminanceThreshold={0.1}
+              intensity={1.5}
+              luminanceThreshold={0.2}
               luminanceSmoothing={0.9}
             />
-            <Noise opacity={0.03} />
+            <Noise opacity={0.02} />
             <Vignette eskil={false} offset={0.1} darkness={1.1} />
+            <ToneMapping middleGrey={0.6} maxLuminance={16.0} />
           </EffectComposer>
         </Suspense>
 
         <ContactShadows
-          position={[0, -2.5, 0]}
-          opacity={0.3}
-          scale={10}
-          blur={3}
+          position={[0, -2.8, 0]}
+          opacity={0.6}
+          scale={12}
+          blur={2.5}
           far={4}
         />
 
         <OrbitControls
           enableZoom={false}
           autoRotate
-          autoRotateSpeed={0.5}
+          autoRotateSpeed={0.8}
           minPolarAngle={Math.PI / 2.5}
           maxPolarAngle={Math.PI / 1.5}
         />
@@ -96,5 +128,4 @@ export default function SmileModel() {
   );
 }
 
-// Ensure the loader is aware of the Draco decoder if you compressed it
 useGLTF.preload("/tooth-draco.glb");
