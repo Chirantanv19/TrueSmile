@@ -1,65 +1,82 @@
-import Image from "next/image";
+"use client"
+import { motion } from "framer-motion";
+import { Sparkles, ArrowRight, ShieldCheck, Zap } from "lucide-react";
+import SmileModel from "@/components/SmileModel";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen">
+      {/* 1% NAV BAR */}
+      <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-12 py-8 backdrop-blur-sm">
+        <div className="text-2xl font-black tracking-tighter">
+          TRUE<span className="text-cyan-400">SMILE</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="hidden md:flex gap-10 text-[10px] uppercase tracking-[0.3em] font-semibold text-gray-400">
+          <a href="#" className="hover:text-white transition">The Tech</a>
+          <a href="#" className="hover:text-white transition">Case Studies</a>
+          <a href="#" className="hover:text-white transition">Pricing</a>
         </div>
-      </main>
-    </div>
+        <button className="glass px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+          Reserve Slot
+        </button>
+      </nav>
+
+      {/* HERO SECTION */}
+      <section className="flex flex-col lg:flex-row items-center justify-between px-12 pt-40 min-h-screen">
+        <div className="max-w-2xl z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-3 text-cyan-400 mb-6"
+          >
+            <div className="h-[1px] w-8 bg-cyan-400"></div>
+            <span className="text-xs font-bold uppercase tracking-[0.4em]">3D Smile Engineering</span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-8xl md:text-[120px] font-black leading-[0.85] tracking-tighter mb-8"
+          >
+            SMILE <br />
+            <span className="text-outline">WITHOUT</span> <br />
+            LIMITS.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-gray-400 text-lg max-w-sm mb-12 font-light leading-relaxed"
+          >
+            We merge anatomical precision with aesthetic artistry to build your perfect smile in 3D before we ever touch a tooth.
+          </motion.p>
+
+          <div className="flex flex-wrap gap-6">
+            <button className="bg-cyan-500 text-black px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform flex items-center gap-4">
+              Book Transformation <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* 3D Model Container */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="relative w-full lg:w-1/2 h-full"
+        >
+          <SmileModel />
+
+          {/* Floating Data Badge */}
+          <div className="absolute top-20 right-0 glass p-6 rounded-3xl max-w-[200px]">
+            <Zap className="text-cyan-400 mb-2" size={20} />
+            <p className="text-[10px] uppercase tracking-widest text-gray-400">AI Precision</p>
+            <p className="text-sm font-bold">0.01mm Structural Accuracy</p>
+          </div>
+        </motion.div>
+      </section>
+    </main>
   );
 }
