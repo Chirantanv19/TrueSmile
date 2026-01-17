@@ -23,18 +23,18 @@ export default function Home() {
 
         {/* GLOBAL BACKGROUND GLOW */}
         <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(6,182,212,0.15),transparent_70%)]" />
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(0,242,255,0.15),transparent_70%)]" />
         </div>
 
         {/* 1. NAVIGATION BAR */}
         <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-12 py-8 backdrop-blur-md border-b border-white/5">
           <div className="text-2xl font-black tracking-tighter">
-            TRUE<span className="text-cyan-400">SMILE</span>
+            TRUE<span className="text-accent">SMILE</span>
           </div>
           <div className="hidden md:flex gap-10 text-[10px] uppercase tracking-[0.3em] font-semibold text-gray-400">
-            <a href="#tech" className="hover:text-cyan-400 transition">The Tech</a>
-            <a href="#results" className="hover:text-cyan-400 transition">Results</a>
-            <a href="#contact" className="hover:text-cyan-400 transition">Contact</a>
+            <a href="#tech" className="hover:text-accent transition">The Tech</a>
+            <a href="#results" className="hover:text-accent transition">Results</a>
+            <a href="#contact" className="hover:text-accent transition">Contact</a>
           </div>
           <button className="glass px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all border border-white/10">
             Reserve Slot
@@ -47,9 +47,9 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 text-cyan-400 mb-6"
+              className="flex items-center gap-3 text-accent mb-6"
             >
-              <div className="h-[1px] w-8 bg-cyan-400"></div>
+              <div className="h-[1px] w-8 bg-accent"></div>
               <span className="text-xs font-bold uppercase tracking-[0.4em]">3D Smile Engineering</span>
             </motion.div>
 
@@ -74,27 +74,31 @@ export default function Home() {
             </motion.p>
 
             <div className="flex flex-wrap gap-6">
-              <button className="bg-cyan-500 text-black px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform flex items-center gap-4 shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+              <button className="bg-accent text-black px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-transform flex items-center gap-4 shadow-[0_0_30px_rgba(0,242,255,0.3)]">
                 Book Transformation <ArrowRight size={18} />
               </button>
             </div>
           </div>
 
-          {/* 3D Model Column */}
+          {/* 3D Model Column - DOUBLED SIZE */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            className="relative w-full lg:w-1/2 h-[600px]"
+            className="relative w-full lg:w-1/2 h-[700px] md:h-[850px] flex items-center justify-center"
           >
             <SmileModel />
 
             {/* Floating Data Badge */}
-            <div className="absolute top-20 right-0 glass p-6 rounded-3xl max-w-[200px] border border-white/10 backdrop-blur-xl">
-              <Zap className="text-cyan-400 mb-2" size={20} />
-              <p className="text-[10px] uppercase tracking-widest text-gray-400">AI Precision</p>
-              <p className="text-sm font-bold">0.01mm Structural Accuracy</p>
+            <div className="absolute top-10 right-0 glass p-6 rounded-3xl max-w-[220px] border border-white/10 backdrop-blur-xl z-20">
+              <div className="flex items-center gap-2 mb-2">
+                <Zap className="text-accent" size={18} />
+                <span className="text-[10px] uppercase tracking-widest text-gray-400">Structural Scan</span>
+              </div>
+              <p className="text-sm font-bold leading-tight">Hyper-Realistic <br /> 3D Mapping Active</p>
             </div>
+
+            <div className="absolute inset-0 bg-accent/5 blur-[120px] rounded-full scale-75 -z-10" />
           </motion.div>
         </section>
 
