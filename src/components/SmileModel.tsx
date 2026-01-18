@@ -85,7 +85,7 @@ export default function SmileModel() {
         <Environment preset="city" />
 
         <Suspense fallback={<Loader />}>
-          <Float speed={2} rotationIntensity={0.8} floatIntensity={0.8}>
+          <Float speed={0.5} rotationIntensity={0.8} floatIntensity={0.8}>
             <Model />
           </Float>
 
@@ -106,10 +106,10 @@ export default function SmileModel() {
         <OrbitControls
           enableZoom={false}
           autoRotate
-          autoRotateSpeed={0.8}
+           autoRotateSpeed={0.8}
           minPolarAngle={Math.PI / 2.5}
           maxPolarAngle={Math.PI / 1.5}
-        />
+        /> 
       </Canvas>
     </div>
   );
