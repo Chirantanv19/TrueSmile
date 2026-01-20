@@ -64,7 +64,7 @@ export default function Showcase() {
 
         <div className="pointer-events-auto">
           <button
-            onClick={() => router.push('/home')}
+            onClick={() => router.push('/book')}
             className="bg-[#00f2ff] text-black px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-4 shadow-[0_0_30px_rgba(0,242,255,0.3)] hover:scale-105 transition-transform"
           >
             Book Transformation <ArrowRight size={18} />
