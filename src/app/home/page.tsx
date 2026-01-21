@@ -70,7 +70,7 @@ export default function HomePage() {
                     <ProcessTimeline />
 
                     {/* 5. Results (Bg: White - High contrast for images) */}
-                    <section id="results" className="bg-white border-y border-slate-200 py-12">
+                    <section id="results" className="bg-slate-100 border-y border-slate-200 py-12">
                         <CompareSlider />
                     </section>
 
@@ -85,7 +85,7 @@ export default function HomePage() {
                     </section>
 
                     {/* 7. FAQ (Bg: White - Clean reading area) */}
-                    <div className="bg-white border-b border-slate-200">
+                    <div className="bg-slate-100 border-b border-slate-200">
                         <FAQ />
                     </div>
 

@@ -102,7 +102,7 @@ export default function Showcase() {
 
         {/* RIGHT: 3D Model Container */}
         {/* MODIFIED BACKGROUND: Added a subtle slate gradient to provide contrast for the white teeth */}
-        <div className="w-full lg:w-[45%] h-[50vh] lg:h-full relative order-1 lg:order-2 bg-gradient-to-br from-slate-500 via-[#f1f5f9] to-[#e2e8f0] lg:rounded-bl-[60px] overflow-hidden shadow-[inset_10px_0_30px_-10px_rgba(0,0,0,0.05)]">
+        <div className="w-full lg:w-[45%] h-[50vh] lg:h-full relative order-1 lg:order-2 bg-gradient-to-br from-slate-500 via-slate-800 to-[#e2e8f0] lg:rounded-bl-[60px] overflow-hidden shadow-[inset_10px_0_30px_-10px_rgba(0,0,0,0.05)]">
           {/* Decorative Circle (made subtly darker) */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] aspect-square rounded-full border border-slate-200/60 z-0" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] aspect-square rounded-full border border-dashed border-slate-200/60 z-0" />
