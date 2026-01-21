@@ -4,15 +4,19 @@ import { useRouter } from "next/navigation";
 import SmoothScroll from "@/components/SmoothScroll";
 import ServiceGrid from "@/components/ServiceGrid";
 import CompareSlider from "@/components/CompareSlider";
-import DoctorCard from "@/components/DoctorCard";
+import DoctorCard from "@/components/DoctorCard"; // Ensure this component accepts the 'doctor' prop now
 import ContactForm from "@/components/ContactForm";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import DoctorCarousel from "@/components/DoctorCarousel";
 
 // NEW COMPONENTS
 import ProcessTimeline from "@/components/ProcessTimeline";
 import PrecisionStats from "@/components/PrecisionStats";
 import TheLab from "@/components/TheLab";
+
+// DATA IMPORT
+import { doctors } from "@/lib/doctors"; // Import the seed data
 
 export default function HomePage() {
     const router = useRouter();
@@ -56,7 +60,19 @@ export default function HomePage() {
                         <CompareSlider />
                     </section>
 
-                    <DoctorCard />
+                    {/* --- UPDATED DOCTORS SECTION --- */}
+                    <section id="team" className="py-24 px-6 min-h-[800px] flex flex-col justify-center">
+                        <div className="max-w-7xl mx-auto w-full">
+                            <h2 className="text-4xl md:text-6xl font-black text-center mb-12 uppercase tracking-tighter">
+                                Meet The <span className="text-[#00f2ff]">Architects</span>
+                            </h2>
+
+                            {/* Replaced the map with the Carousel */}
+                            <DoctorCarousel />
+
+                        </div>
+                    </section>
+                    {/* ------------------------------- */}
 
                     <FAQ />
 
