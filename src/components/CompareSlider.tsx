@@ -14,21 +14,16 @@ export default function CompareSlider() {
   useEffect(() => {
     const animate = () => {
       if (!isHovering) {
-        // Increment time for the sine wave
         timeRef.current += 0.01;
-        // Calculate position: Center (50) + Range (45) * Sin(time)
-        // This creates a smooth oscillation between 5% and 95%
         const newPos = 50 + 45 * Math.sin(timeRef.current);
         setPosition(newPos);
         animationRef.current = requestAnimationFrame(animate);
       }
     };
 
-    // Start animation if not hovering
     if (!isHovering) {
       animationRef.current = requestAnimationFrame(animate);
     } else {
-      // Stop animation if hovering
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     }
 
@@ -38,28 +33,31 @@ export default function CompareSlider() {
   }, [isHovering]);
 
   return (
-    // Reduced padding (py-12 instead of py-24) to keep it compact
-    <section className="py-12 px-6 md:px-12 bg-background relative z-10">
+    // Changed: bg-background (dark) -> bg-white
+    <section className="py-24 px-6 md:px-12 bg-white relative z-10">
       <div className="max-w-5xl mx-auto">
 
         {/* Compact Header */}
         <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h2 className="text-3xl md:text-4xl font-black tracking-tighter uppercase italic">
-              Visual <span className="text-outline">Results</span>
+            {/* Changed: Text Slate-900, Teal Serif Accent */}
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 uppercase">
+              Visual <span className="text-teal-600 font-serif italic">Results</span>
             </h2>
-            <p className="text-gray-500 tracking-[0.2em] text-[10px] uppercase mt-2">
+            <p className="text-slate-400 tracking-widest text-[10px] uppercase mt-2 font-bold">
               {isHovering ? "Manual Control Active" : "Auto-Scanning Mode"}
             </p>
           </div>
-          <div className="hidden md:block glass px-4 py-2 rounded-xl text-[9px] tracking-widest text-gray-400 uppercase border-white/5">
+          {/* Changed: Glass -> Clean Slate Badge */}
+          <div className="hidden md:block bg-slate-50 border border-slate-200 px-4 py-2 rounded-full text-[10px] tracking-widest text-slate-500 uppercase font-bold">
             Phase 01 — Structural Alignment
           </div>
         </div>
 
-        {/* Height Constrained Container */}
+        {/* Image Container */}
         <div
-          className="relative aspect-[21/9] max-h-[450px] w-full rounded-[32px] overflow-hidden border border-white/10 shadow-2xl bg-neutral-900 group cursor-ew-resize"
+          // Changed: Border/Shadows to soft medical look
+          className="relative aspect-[21/9] max-h-[450px] w-full rounded-[32px] overflow-hidden border border-slate-200 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] bg-slate-100 group cursor-ew-resize"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onTouchStart={() => setIsHovering(true)}
@@ -73,7 +71,8 @@ export default function CompareSlider() {
               alt="After"
               className="w-full h-full object-cover object-center pointer-events-none"
             />
-            <div className="absolute bottom-6 right-6 glass px-4 py-1.5 rounded-full text-[9px] tracking-widest font-bold uppercase z-10">
+            {/* Changed: Label to White Badge */}
+            <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-[10px] tracking-widest font-bold uppercase z-10 text-slate-900 shadow-sm">
               After
             </div>
           </div>
@@ -88,19 +87,20 @@ export default function CompareSlider() {
               alt="Before"
               className="w-full h-full object-cover object-center"
             />
-            <div className="absolute bottom-6 left-6 border border-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] tracking-widest font-bold bg-black/40 uppercase">
+            {/* Changed: Label to Dark Slate Badge for contrast */}
+            <div className="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-[10px] tracking-widest font-bold text-white uppercase shadow-sm">
               Before
             </div>
           </div>
 
-          {/* SLIDER CONTROL (Invisible Range Input) */}
+          {/* SLIDER CONTROL (Invisible) */}
           <div className="absolute inset-0 z-30">
             <input
               type="range"
               min="0" max="100"
               value={position}
               onChange={(e) => {
-                setIsHovering(true); // Ensure manual control takes over immediately
+                setIsHovering(true);
                 setPosition(Number(e.target.value));
               }}
               className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize"
@@ -109,13 +109,15 @@ export default function CompareSlider() {
 
           {/* VISUAL LINE & HANDLE */}
           <div
-            className="absolute top-0 bottom-0 w-[1px] bg-[#00f2ff] z-20 pointer-events-none shadow-[0_0_15px_rgba(0,242,255,0.5)]"
+            // Changed: Neon Blue -> Clean White Line with shadow
+            className="absolute top-0 bottom-0 w-[2px] bg-white z-20 pointer-events-none shadow-[0_0_10px_rgba(0,0,0,0.2)]"
             style={{ left: `${position}%` }}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 glass rounded-full flex items-center justify-center border-[#00f2ff]/30 shadow-[0_0_20px_rgba(0,242,255,0.2)] transition-transform duration-200 scale-100 group-hover:scale-110">
+            {/* Changed: Handle to White Circle with Slate Notches */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-transform duration-200 scale-100 group-hover:scale-110">
               <div className="flex gap-1">
-                <div className="w-0.5 h-3 bg-white/90 rounded-full"></div>
-                <div className="w-0.5 h-3 bg-white/90 rounded-full"></div>
+                <div className="w-0.5 h-4 bg-slate-300 rounded-full"></div>
+                <div className="w-0.5 h-4 bg-slate-300 rounded-full"></div>
               </div>
             </div>
           </div>

@@ -39,19 +39,28 @@ export default function FAQ() {
 
   return (
     <section className="py-24 px-6 md:px-12 max-w-4xl mx-auto">
-      <h2 className="text-3xl font-black uppercase tracking-widest mb-12 text-center">Inquiries</h2>
+      {/* Header: Dark Slate */}
+      <h2 className="text-3xl font-black uppercase tracking-widest mb-12 text-center text-slate-900">Inquiries</h2>
+
       <div className="space-y-4">
         {faqs.map((faq, i) => (
-          <div key={i} className="border-b border-white/10 pb-4">
+          // Border: Light Slate
+          <div key={i} className="border-b border-slate-200 pb-4">
             <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
               className="w-full flex justify-between items-center py-4 text-left group"
             >
-              <span className="text-lg font-bold group-hover:text-cyan-400 transition pr-8">{faq.q}</span>
-              <div className="shrink-0 text-cyan-400">
+              {/* Question: Dark Slate -> Teal Hover */}
+              <span className="text-lg font-bold text-slate-900 group-hover:text-teal-600 transition-colors pr-8">
+                {faq.q}
+              </span>
+
+              {/* Icon: Teal with light background pill */}
+              <div className="shrink-0 text-teal-600 bg-teal-50 p-2 rounded-full group-hover:bg-teal-100 transition-colors">
                 {openIndex === i ? <Minus size={20} /> : <Plus size={20} />}
               </div>
             </button>
+
             <AnimatePresence>
               {openIndex === i && (
                 <motion.div
@@ -60,7 +69,8 @@ export default function FAQ() {
                   exit={{ height: 0, opacity: 0 }}
                   className="overflow-hidden"
                 >
-                  <p className="text-gray-400 text-sm leading-relaxed pb-4 pr-8">
+                  {/* Answer: Slate 500 (Soft Grey) */}
+                  <p className="text-slate-500 text-sm leading-relaxed pb-4 pr-8 pl-1">
                     {faq.a}
                   </p>
                 </motion.div>

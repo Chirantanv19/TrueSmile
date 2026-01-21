@@ -45,28 +45,33 @@ export default function PrecisionStats() {
   ];
 
   return (
-    <section className="relative py-20 border-y border-white/10 bg-[#080808] overflow-hidden">
+    // Changed: bg-[#080808] -> bg-slate-50, border-white/10 -> border-slate-200
+    <section className="relative py-24 border-y border-slate-200 bg-slate-50 overflow-hidden">
 
-      {/* Background Tech Grid Pattern */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none"
-        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #333 1px, transparent 0)', backgroundSize: '40px 40px' }}
+      {/* Background Tech Grid Pattern - Light Mode (Dark dots on light bg) */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '32px 32px' }}
       />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+        {/* Changed: divide-white/10 -> divide-slate-200 */}
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-200">
 
           {stats.map((stat, i) => (
-            <div key={i} className={`flex flex-col items-center justify-center p-8 ${i % 2 === 0 ? '' : 'md:border-none'}`}> {/* Mobile specific styling adjustment can go here if needed, but standard grid gap works well */}
+            <div key={i} className={`flex flex-col items-center justify-center p-8 ${i % 2 === 0 ? '' : 'md:border-none'}`}>
 
-              <div className="text-5xl md:text-6xl font-black tracking-tighter text-white mb-2 flex items-baseline">
+              {/* Changed: text-white -> text-slate-900 */}
+              <div className="text-5xl md:text-6xl font-black tracking-tighter text-slate-900 mb-2 flex items-baseline">
                 <Counter value={stat.value} suffix={stat.suffix} />
               </div>
 
               <div className="flex flex-col items-center gap-1">
-                <span className="text-[#00f2ff] text-[10px] font-bold uppercase tracking-[0.25em]">
+                {/* Changed: text-[#00f2ff] -> text-teal-600 */}
+                <span className="text-teal-600 text-[10px] font-bold uppercase tracking-[0.25em]">
                   {stat.label}
                 </span>
-                <span className="text-gray-600 text-[9px] uppercase tracking-widest font-medium hidden md:block">
+                {/* Changed: text-gray-600 -> text-slate-400 */}
+                <span className="text-slate-400 text-[9px] uppercase tracking-widest font-medium hidden md:block">
                   {stat.description}
                 </span>
               </div>

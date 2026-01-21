@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight, MoveDown } from "lucide-react";
 import SmileModel from "@/components/SmileModel";
 
 export default function Showcase() {
@@ -11,72 +11,125 @@ export default function Showcase() {
 
   useEffect(() => {
     const handleScroll = (e: WheelEvent) => {
-      // If user scrolls down (deltaY > 0)
-      if (e.deltaY > 0 && !isExiting) {
+      if (e.deltaY > 50 && !isExiting) {
         setIsExiting(true);
-        router.push("/home");
+        setTimeout(() => router.push("/home"), 300);
       }
     };
-
     window.addEventListener("wheel", handleScroll);
     return () => window.removeEventListener("wheel", handleScroll);
   }, [router, isExiting]);
 
   return (
-    <main className="h-screen w-full bg-[#050505] text-white overflow-hidden relative">
-      {/* 3D Model Background */}
-      <div className="absolute inset-0 z-0 flex items-center justify-end pr-12">
-        <div className="w-full lg:w-1/2 h-full">
-          <SmileModel />
-        </div>
-      </div>
+    <main className="h-screen w-full bg-white text-slate-900 overflow-hidden relative selection:bg-slate-900 selection:text-white">
 
-      {/* Hero Content */}
-      <div className="relative z-10 flex flex-col justify-center h-full px-12 max-w-4xl pointer-events-none">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-3 text-[#00f2ff] mb-6"
-        >
-          <div className="h-[1px] w-8 bg-[#00f2ff]"></div>
-          <span className="text-xs font-bold uppercase tracking-[0.4em]">3D Smile Engineering</span>
-        </motion.div>
+      {/* Background Subtle Grain Texture */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-multiply"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+      />
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-7xl md:text-[120px] font-black leading-[0.85] tracking-tighter mb-8 uppercase"
-        >
-          Smile <br />
-          <span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>Without</span> <br />
-          Limits.
-        </motion.h1>
+      <div className="flex h-full w-full flex-col lg:flex-row relative z-10">
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="text-gray-400 text-lg max-w-sm mb-12 font-light leading-relaxed"
-        >
-          We merge anatomical precision with aesthetic artistry to build your perfect smile in 3D.
-        </motion.p>
+        {/* LEFT: Typography & Content */}
+        <div className="w-full lg:w-[55%] h-full flex flex-col justify-center px-8 md:px-20 relative order-2 lg:order-1 bg-white/50 backdrop-blur-sm lg:bg-transparent">
 
-        <div className="pointer-events-auto">
-          <button
-            onClick={() => router.push('/book')}
-            className="bg-[#00f2ff] text-black px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-4 shadow-[0_0_30px_rgba(0,242,255,0.3)] hover:scale-105 transition-transform"
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex items-center gap-4 mb-8"
           >
-            Book Transformation <ArrowRight size={18} />
-          </button>
+            <span className="w-12 h-[1px] bg-slate-900"></span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-slate-500">
+              Est. 2026 • Swiss Precision
+            </span>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+          >
+            <h1 className="text-6xl md:text-[90px] lg:text-[110px] font-medium leading-[0.9] tracking-tight mb-8 text-slate-900">
+              Smile <br />
+              <span className="font-serif italic text-slate-400">Without</span> <br />
+              Compromise.
+            </h1>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-slate-500 text-lg md:text-xl max-w-md mb-12 font-light leading-relaxed"
+          >
+            Merging anatomical data with architectural principles to engineer a smile that is unmistakably yours.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="flex items-center gap-8"
+          >
+            <button
+              onClick={() => router.push('/book')}
+              className="group bg-slate-900 text-white pl-8 pr-6 py-5 rounded-full font-medium text-sm uppercase tracking-wider flex items-center gap-4 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+            >
+              Consultation
+              <span className="bg-white/20 p-1 rounded-full group-hover:bg-white group-hover:text-slate-900 transition-colors">
+                <ArrowRight size={16} />
+              </span>
+            </button>
+            <button className="text-slate-900 font-bold text-xs uppercase tracking-widest hover:text-slate-500 transition-colors">
+              View Case Studies
+            </button>
+          </motion.div>
+
+          {/* Scroll Hint */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+            className="absolute bottom-10 left-8 md:left-20 flex items-center gap-4 text-slate-400"
+          >
+            <div className="p-2 border border-slate-200 rounded-full animate-bounce">
+              <MoveDown size={14} />
+            </div>
+            <span className="text-[10px] uppercase tracking-[0.2em] font-medium">Scroll to Discover</span>
+          </motion.div>
         </div>
+
+        {/* RIGHT: 3D Model Container */}
+        {/* MODIFIED BACKGROUND: Added a subtle slate gradient to provide contrast for the white teeth */}
+        <div className="w-full lg:w-[45%] h-[50vh] lg:h-full relative order-1 lg:order-2 bg-gradient-to-br from-slate-500 via-[#f1f5f9] to-[#e2e8f0] lg:rounded-bl-[60px] overflow-hidden shadow-[inset_10px_0_30px_-10px_rgba(0,0,0,0.05)]">
+          {/* Decorative Circle (made subtly darker) */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] aspect-square rounded-full border border-slate-200/60 z-0" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] aspect-square rounded-full border border-dashed border-slate-200/60 z-0" />
+
+          <div className="relative z-10 w-full h-full">
+            <SmileModel />
+          </div>
+
+          {/* Floating Badge */}
+          <div className="absolute top-12 right-12 hidden lg:flex flex-col items-end gap-1">
+            <div className="text-4xl font-light text-slate-900">01</div>
+            <div className="w-12 h-[1px] bg-slate-300 mb-1" />
+            <div className="text-[10px] uppercase tracking-widest text-slate-500">Digital Twin</div>
+          </div>
+        </div>
+
       </div>
 
-      {/* Scroll Hint */}
-      <div className="absolute bottom-10 left-12 flex items-center gap-4 text-gray-500">
-        <div className="w-12 h-[1px] bg-gray-800" />
-        <span className="text-[10px] uppercase tracking-[0.4em]">Scroll down to enter</span>
-      </div>
+      {/* Page Transition Curtain */}
+      {isExiting && (
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: 1 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="absolute inset-0 bg-slate-900 z-50 origin-bottom"
+        />
+      )}
     </main>
   );
 }

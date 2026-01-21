@@ -16,8 +16,9 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
     const mouseXSpring = useSpring(x);
     const mouseYSpring = useSpring(y);
 
-    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+    // Reduced rotation range for a more stable, elegant feel
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
 
     const handleMouseMove = (e: React.MouseEvent) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -37,25 +38,30 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
     };
 
     return (
-       <div className="flex flex-col md:flex-row gap-10 items-center justify-center w-full max-w-5xl mx-auto p-4">
+        <div className="flex flex-col md:flex-row gap-12 items-center justify-center w-full max-w-5xl mx-auto p-4">
 
             {/* 3D Card Area */}
             <motion.div
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="relative w-full max-w-[350px] aspect-[3/4] rounded-[30px] bg-gradient-to-br from-gray-800 to-black overflow-hidden border border-white/10 shrink-0"
+                // Changed: Dark Gradient -> White bg with soft shadow
+                className="relative w-full max-w-[350px] aspect-[3/4] rounded-[32px] bg-white overflow-hidden border border-slate-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] shrink-0 group"
             >
                 <div
-                    className="absolute inset-0 bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105"
                     style={{ backgroundImage: `url('${doctor.image}')` }}
                 />
 
-                <div style={{ transform: "translateZ(50px)" }} className="absolute bottom-8 left-8 pr-4">
-                    <h3 className="text-3xl font-black tracking-tighter text-white uppercase leading-none mb-1">
+                {/* Gradient Overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent opacity-90" />
+
+                <div style={{ transform: "translateZ(30px)" }} className="absolute bottom-8 left-8 pr-4">
+                    <h3 className="text-3xl font-bold tracking-tight text-white leading-none mb-2">
                         {doctor.name}
                     </h3>
-                    <p className="text-cyan-400 font-bold tracking-[0.2em] text-[10px] uppercase">
+                    {/* Changed: Cyan -> Teal-200 (Light Teal for dark bg contrast) */}
+                    <p className="text-teal-200 font-bold tracking-[0.2em] text-[10px] uppercase">
                         {doctor.role}
                     </p>
                 </div>
@@ -65,31 +71,36 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
             <div className="flex-1 max-w-lg flex flex-col justify-center">
                 <div className="flex gap-1 mb-4">
                     {[...Array(doctor.stars)].map((_, i) => (
-                        <Star key={i} size={16} className="fill-cyan-400 text-cyan-400" />
+                        // Changed: Cyan -> Yellow (Gold Standard)
+                        <Star key={i} size={16} className="fill-yellow-400 text-yellow-400" />
                     ))}
                 </div>
 
-                <h2 className="text-4xl font-black tracking-tighter mb-4 uppercase text-white">
-                    The Man Behind <br /> The Science.
+                {/* Changed: Text White -> Slate-900 */}
+                <h2 className="text-4xl font-bold tracking-tight mb-4 text-slate-900">
+                    The Person Behind <br />
+                    <span className="text-teal-600 font-serif italic">The Science.</span>
                 </h2>
 
-                <p className="text-gray-400 leading-relaxed mb-6 text-base">
+                {/* Changed: Text Gray-400 -> Slate-500 */}
+                <p className="text-slate-500 leading-relaxed mb-8 text-lg font-light">
                     {doctor.description}
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 mb-8">
                     {doctor.stats.map((stat, index) => (
-                        <div key={index} className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md">
-                            <Award className="text-cyan-400 mb-2 w-5 h-5" />
-                            <p className="text-xl font-bold text-white">{stat.value}</p>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{stat.label}</p>
+                        // Changed: Dark glass -> Light card
+                        <div key={index} className="bg-slate-50 border border-slate-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                            <Award className="text-teal-600 mb-2 w-5 h-5" />
+                            <p className="text-xl font-bold text-slate-900">{stat.value}</p>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{stat.label}</p>
                         </div>
                     ))}
                 </div>
 
-                {/* The New Button */}
+                {/* The New Button - Changed to Slate-900 */}
                 <Link href={`/doctors/${doctor.id}`}>
-                    <button className="group flex items-center gap-3 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-full transition-all w-fit">
+                    <button className="group flex items-center gap-3 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-full transition-all w-fit shadow-lg shadow-slate-900/20">
                         View Full Profile
                         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                     </button>
