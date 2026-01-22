@@ -52,51 +52,7 @@ export default function HomePage() {
                     {/* =========================================================
                         1. NEW HERO SECTION (Matches your first Screenshot)
                        ========================================================= */}
-                    <section className="relative w-full flex flex-col items-center pb-12">
-                        {/* Mobile: Top Graphic (Teeth Radar) */}
-                        <div className="md:hidden w-full h-[320px] bg-slate-900 overflow-hidden flex items-center justify-center relative mb-8">
-                            <div className="absolute inset-0 flex items-center justify-center opacity-20">
-                                <div className="w-[120%] h-[120%] border border-white/30 rounded-full absolute" />
-                                <div className="w-[80%] h-[80%] border border-white/20 rounded-full absolute" />
-                            </div>
-                            {/* Placeholder for 3D Teeth Image */}
-                            <div className="relative z-10 w-48 h-32 bg-gradient-to-b from-slate-200 to-slate-400 opacity-90 rounded-[3rem] blur-sm shadow-[0_0_40px_rgba(255,255,255,0.2)] animate-pulse">
-                                <div className="absolute inset-0 flex items-center justify-center text-xs font-bold tracking-widest opacity-40">3D MODEL</div>
-                            </div>
-                        </div>
-
-                        {/* Content Container */}
-                        <div className="px-6 md:px-12 w-full max-w-7xl">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="h-[1px] w-12 bg-slate-400"></div>
-                                <span className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">
-                                    Est. 2026 • Swiss Precision
-                                </span>
-                            </div>
-
-                            <h1 className="text-6xl md:text-8xl leading-[0.9] text-slate-900 mb-8">
-                                <span className="block font-sans font-bold tracking-tight">Smile</span>
-                                <span className="block font-serif italic text-slate-400 font-light">Without</span>
-                                <span className="block font-sans font-bold tracking-tight">Compromise</span>
-                            </h1>
-
-                            <p className="text-slate-500 text-sm md:text-lg leading-relaxed max-w-md mb-8">
-                                Merging anatomical data with architectural principles to engineer a smile that is unmistakably yours.
-                            </p>
-
-                            <div className="flex items-center justify-between md:justify-start md:gap-8">
-                                <button onClick={() => router.push('/booking')} className="group flex items-center gap-2 bg-slate-900 text-white pl-4 pr-2 py-2 rounded-full shadow-xl">
-                                    <span className="text-xs font-bold tracking-widest uppercase pl-2">Consultation</span>
-                                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-slate-900 transition-colors">
-                                        <ArrowRight className="w-4 h-4" />
-                                    </div>
-                                </button>
-                                <button className="text-[10px] font-bold tracking-widest uppercase text-slate-900 border-b border-slate-300 pb-1">
-                                    View Case Studies
-                                </button>
-                            </div>
-                        </div>
-                    </section>
+                    
 
                     {/* 2. Stats */}
                     <div className="bg-white border-b border-slate-200 shadow-sm">
