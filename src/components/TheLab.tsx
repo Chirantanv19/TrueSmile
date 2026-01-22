@@ -37,11 +37,11 @@ export default function TheLab() {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
       {/* 3. ANIMATED SCANNING LINE (The "Laser") - Adjusted to Blue/Teal */}
-      <motion.div
+      {/* <motion.div
         animate={{ top: ["0%", "100%", "0%"] }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
         className="absolute left-0 w-full h-[2px] bg-teal-500/30 shadow-[0_0_20px_rgba(20,184,166,0.4)] z-0 pointer-events-none"
-      />
+      /> */}
 
       {/* 4. MAIN CONTENT */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">

@@ -2,11 +2,14 @@
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { BookingForm } from "@/components/forms/booking-form";
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { Star, ArrowLeft, Home } from "lucide-react"; // Added Icons
+import Link from "next/link"; // Added Link
 
 export default function BookingPage() {
   return (
-    <main className="relative min-h-screen w-full flex items-center justify-center p-4 md:p-8">
+    // Changed: 'items-center' can cut off content on small phones if form is long. 
+    // Used 'items-start md:items-center' and added 'py-8' for better mobile scrolling.
+    <main className="relative min-h-screen w-full flex items-start md:items-center justify-center p-4 md:p-8 overflow-y-auto">
       <AmbientBackground />
 
       {/* Main Glass Card Container */}
@@ -14,10 +17,11 @@ export default function BookingPage() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full max-w-6xl bg-white/60 backdrop-blur-2xl border border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-[40px] overflow-hidden flex flex-col md:flex-row min-h-[700px]"
+        className="w-full max-w-6xl bg-white/60 backdrop-blur-2xl border border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-[32px] md:rounded-[40px] overflow-hidden flex flex-col md:flex-row min-h-[auto] md:min-h-[700px] my-auto"
       >
 
-        {/* LEFT SIDE: Visuals & Context (Hidden on small mobile) */}
+        {/* LEFT SIDE: Visuals & Context (Desktop Only) */}
+        {/* Kept hidden on mobile to prioritize the form, as requested */}
         <div className="hidden md:flex flex-1 relative bg-slate-50 p-12 flex-col justify-between overflow-hidden">
           {/* Background Image with Overlay */}
           <div className="absolute inset-0 w-full h-full z-0">
@@ -60,10 +64,36 @@ export default function BookingPage() {
         </div>
 
         {/* RIGHT SIDE: The Form */}
-        <div className="flex-1 p-8 md:p-16 flex items-center justify-center relative">
+        <div className="flex-1 p-6 md:p-16 flex flex-col items-center justify-center relative">
+
+          {/* MOBILE ONLY: Context Header */}
+          {/* This ensures mobile users still see the branding without the massive image */}
+          <div className="md:hidden w-full mb-8 pt-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full text-slate-600 text-[10px] uppercase tracking-widest font-bold mb-4">
+              <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+              New Patients
+            </div>
+            <h2 className="text-3xl font-black text-slate-800 leading-none">
+              The Future of <span className="text-blue-500">Dentistry.</span>
+            </h2>
+          </div>
+
           <div className="w-full max-w-md relative z-10">
             <BookingForm />
           </div>
+
+          {/* MOBILE ONLY: Bottom Navigation */}
+          {/* As requested: Buttons and bottom go to /home only for mobile */}
+          <div className="md:hidden w-full mt-8 pt-6 border-t border-slate-100">
+            <Link
+              href="/"
+              className="group flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-slate-50 text-slate-600 font-semibold text-sm hover:bg-slate-100 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              Back to Home
+            </Link>
+          </div>
+
         </div>
 
       </motion.div>
