@@ -81,17 +81,19 @@ export default function Showcase() {
                 <ArrowRight size={16} />
               </span>
             </button>
-            <button className="text-slate-900 font-bold text-xs uppercase tracking-widest hover:text-slate-500 transition-colors">
-              View Case Studies
+            <button 
+            onClick={() => router.push('/home')}
+            className="text-slate-900 font-bold text-xs uppercase tracking-widest hover:text-slate-500 transition-colors">
+              View Details
             </button>
           </motion.div>
 
-          {/* Scroll Hint */}
+          {/* Scroll Hint - HIDDEN ON MOBILE */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="absolute bottom-10 left-8 md:left-20 flex items-center gap-4 text-slate-400"
+            className="hidden lg:flex absolute bottom-10 left-8 md:left-20 items-center gap-4 text-slate-400"
           >
             <div className="p-2 border border-slate-200 rounded-full animate-bounce">
               <MoveDown size={14} />
@@ -101,9 +103,8 @@ export default function Showcase() {
         </div>
 
         {/* RIGHT: 3D Model Container */}
-        {/* MODIFIED BACKGROUND: Added a subtle slate gradient to provide contrast for the white teeth */}
         <div className="w-full lg:w-[45%] h-[50vh] lg:h-full relative order-1 lg:order-2 bg-gradient-to-br from-slate-500 via-slate-800 to-[#e2e8f0] lg:rounded-bl-[60px] overflow-hidden shadow-[inset_10px_0_30px_-10px_rgba(0,0,0,0.05)]">
-          {/* Decorative Circle (made subtly darker) */}
+          {/* Decorative Circle */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] aspect-square rounded-full border border-slate-200/60 z-0" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] aspect-square rounded-full border border-dashed border-slate-200/60 z-0" />
 
