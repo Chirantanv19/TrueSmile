@@ -92,20 +92,20 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
                     {doctor.description}
                 </p>
 
-                <div className="grid grid-cols-2 gap-3 lg:gap-4 mb-6 lg:mb-8">
+                <div className="grid grid-cols-2 gap-2 lg:gap-4 mb-3 lg:mb-8">
                     {doctor.stats.map((stat, index) => (
-                        <div key={index} className="bg-white border border-slate-200 p-4 lg:p-5 rounded-xl lg:rounded-2xl shadow-sm hover:shadow-md transition-all">
-                            <Award className="text-teal-600 mb-2 w-4 h-4 lg:w-5 lg:h-5" />
-                            <p className="text-lg lg:text-xl font-bold text-slate-900">{stat.value}</p>
-                            <p className="text-[9px] lg:text-[10px] text-slate-500 font-bold uppercase tracking-wider">{stat.label}</p>
+                        <div key={index} className="bg-white border border-slate-200 p-2 lg:p-5 rounded-lg lg:rounded-2xl shadow-sm hover:shadow-md transition-all">
+                            <Award className="text-teal-600 mb-1 w-3 h-3 lg:w-5 lg:h-5" />
+                            <p className="text-sm lg:text-xl font-bold text-slate-900">{stat.value}</p>
+                            <p className="text-[7px] lg:text-[10px] text-slate-500 font-bold uppercase tracking-wider">{stat.label}</p>
                         </div>
                     ))}
                 </div>
 
                 <Link href={`/doctors/${doctor.id}`} className="w-full sm:w-auto">
-                    <button className="group flex items-center justify-center gap-3 px-6 lg:px-8 py-3 lg:py-4 bg-slate-900 hover:bg-slate-800 text-white text-sm lg:text-base font-semibold rounded-full transition-all w-full sm:w-auto shadow-lg shadow-slate-900/20">
+                    <button className="group flex items-center justify-center gap-3 px-6 lg:px-8 py-3 lg:py-4 bg-slate-900 hover:bg-slate-800 text-white text-sm lg:text-base font-semibold rounded-full transition-all duration-500 w-full sm:w-auto shadow-lg shadow-slate-900/20">
                         View Full Profile
-                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-500" />
                     </button>
                 </Link>
             </div>
