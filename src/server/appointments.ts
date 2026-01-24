@@ -1,4 +1,3 @@
-// src/server/appointments.ts
 "use server";
 
 import { db } from "@/db";
@@ -7,7 +6,9 @@ import { bookingSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { sendConfirmationEmail , sendConfirmationWhatsApp} from "./notifications";
+
+// ❌ REMOVED: Import of sendConfirmationEmail / sendConfirmationWhatsApp
+// import { sendConfirmationEmail, sendConfirmationWhatsApp } from "./notifications"; 
 
 export type BookingState = {
     success?: boolean;
@@ -28,23 +29,19 @@ const confirmSchema = z.object({
 
 // --- ACTION: Confirm Booking ---
 export async function confirmBooking(prevState: any, formData: FormData) {
-    console.log("\n🛑 --- STARTED CONFIRM ACTION --- 🛑");
+    console.log("\n🛑 --- STARTED CONFIRM ACTION (MANUAL MODE) --- 🛑");
 
     const id = Number(formData.get("id"));
     const slotStart = String(formData.get("slotStart"));
     const slotEnd = String(formData.get("slotEnd"));
 
-    console.log(`Checking ID: ${id}`);
-
     const validation = confirmSchema.safeParse({ id, slotStart, slotEnd });
     if (!validation.success) {
-        console.error("❌ Validation Failed:", validation.error);
         return { success: false, message: "Invalid time slots provided." };
     }
 
     try {
         // 1. Perform Update
-        console.log("Attempting DB Update...");
         await db
             .update(appointments)
             .set({
@@ -54,40 +51,12 @@ export async function confirmBooking(prevState: any, formData: FormData) {
             })
             .where(eq(appointments.id, id));
 
-        console.log("✅ DB Update Successful. Fetching updated record...");
+        console.log("✅ DB Update Successful.");
 
-        // 2. Fetch Explicitly (Safer than returning in some drivers)
-        const booking = await db.query.appointments.findFirst({
-            where: eq(appointments.id, id)
-        });
-
-        if (!booking) {
-            console.error("❌ CRITICAL: Could not find booking after update.");
-            return { success: false, message: "Error: Booking lost." };
-        }
-
-        console.log(`✅ Record Found. Email: ${booking.email}, Phone: ${booking.phone}`);
-
-        // 3. Send Notifications
-        console.log("🚀 Triggering Notifications...");
-
-        // We await them individually to see which one fails in the logs
-        const emailRes = await sendConfirmationEmail(
-            booking.email,
-            booking.patientName,
-            booking.slotStart!
-        );
-        console.log(`📧 Email Result: ${emailRes.success ? "Sent" : "Failed"}`);
-
-        const waRes = await sendConfirmationWhatsApp(
-            booking.phone,
-            booking.patientName,
-            booking.slotStart!
-        );
-        console.log(`💬 WhatsApp Result: ${waRes.success ? "Sent" : "Failed"}`);
+        // ❌ REMOVED: The automated Email/WhatsApp sending block
 
         revalidatePath("/admin/dashboard/appointments");
-        return { success: true, message: "Confirmed & Notified!" };
+        return { success: true, message: "Confirmed! Please send manual notifications now." };
 
     } catch (error) {
         console.error("💥 SERVER ACTION CRASHED:", error);
@@ -95,7 +64,7 @@ export async function confirmBooking(prevState: any, formData: FormData) {
     }
 }
 
-// ... (Keep createBooking as it was) ...
+// ... (createBooking remains unchanged) ...
 export async function createBooking(prevState: BookingState, formData: FormData) {
     const validatedFields = bookingSchema.safeParse({
         name: formData.get("name"),
