@@ -96,7 +96,7 @@ export function ReviewModal({ appointment, trigger }: { appointment: any, trigge
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1">
-                                        <Clock className="h-3 w-3" /> Start Time
+                                        <Clock className="h-3 w-3" /> Time Slot
                                     </label>
                                     <input
                                         type="datetime-local"
@@ -106,7 +106,7 @@ export function ReviewModal({ appointment, trigger }: { appointment: any, trigge
                                         className="w-full h-11 px-3 rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
                                     />
                                 </div>
-                                <div className="space-y-2">
+                               <div className="hidden space-y-2">
                                     <label className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1">
                                         <Clock className="h-3 w-3" /> End Time
                                     </label>
@@ -116,8 +116,8 @@ export function ReviewModal({ appointment, trigger }: { appointment: any, trigge
                                         value={end}
                                         onChange={(e) => setEnd(e.target.value)}
                                         className="w-full h-11 px-3 rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-                                    />
-                                </div>
+                                    /> 
+                                </div> 
                             </div>
                         </div>
 
@@ -140,10 +140,10 @@ export function ReviewModal({ appointment, trigger }: { appointment: any, trigge
                                 )}
                             >
                                 {isPending ? (
-                                    "Sending..."
+                                    "Processing..."
                                 ) : (
                                     <>
-                                        Confirm & Notify <ArrowRight className="h-4 w-4 opacity-50" />
+                                        Confirm  <ArrowRight className="h-4 w-4 opacity-50" />
                                     </>
                                 )}
                             </button>
