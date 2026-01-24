@@ -1,8 +1,7 @@
-// src/components/dashboard/appointments-table.tsx
 "use client";
 
 import { format } from "date-fns";
-import { Badge } from "lucide-react"; // Import issue fix below
+import { Mail, MessageCircle } from "lucide-react"; // Import Icons
 import { cn } from "@/lib/utils";
 import { ReviewModal } from "./review-modal";
 
@@ -23,22 +22,12 @@ export function AppointmentsTable({ data }: { data: Appointment[] }) {
             <div className="relative w-full overflow-auto">
                 <table className="w-full caption-bottom text-sm text-left">
                     <thead className="[&_tr]:border-b">
-                        <tr className="border-b transition-colors hover:bg-slate-100/50 data-[state=selected]:bg-slate-100">
-                            <th className="h-12 px-4 align-middle font-medium text-slate-500">
-                                Patient
-                            </th>
-                            <th className="h-12 px-4 align-middle font-medium text-slate-500">
-                                Contact
-                            </th>
-                            <th className="h-12 px-4 align-middle font-medium text-slate-500">
-                                Requested Date
-                            </th>
-                            <th className="h-12 px-4 align-middle font-medium text-slate-500">
-                                Status
-                            </th>
-                            <th className="h-12 px-4 align-middle font-medium text-slate-500 text-right">
-                                Actions
-                            </th>
+                        <tr className="border-b transition-colors hover:bg-slate-100/50">
+                            <th className="h-12 px-4 align-middle font-medium text-slate-500">Patient</th>
+                            <th className="h-12 px-4 align-middle font-medium text-slate-500">Contact</th>
+                            <th className="h-12 px-4 align-middle font-medium text-slate-500">Requested Date</th>
+                            <th className="h-12 px-4 align-middle font-medium text-slate-500">Status</th>
+                            <th className="h-12 px-4 align-middle font-medium text-slate-500 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="[&_tr:last-child]:border-0">
@@ -50,18 +39,22 @@ export function AppointmentsTable({ data }: { data: Appointment[] }) {
                             </tr>
                         ) : (
                             data.map((apt) => (
-                                <tr
-                                    key={apt.id}
-                                    className="border-b transition-colors hover:bg-slate-50"
-                                >
+                                <tr key={apt.id} className="border-b transition-colors hover:bg-slate-50">
                                     <td className="p-4 align-middle text-slate-800 font-medium">
                                         {apt.patientName}
                                     </td>
                                     <td className="p-4 align-middle">
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col mb-2">
                                             <span className="text-xs text-slate-500">{apt.email}</span>
                                             <span className="text-xs text-slate-500">{apt.phone}</span>
                                         </div>
+                                        {/* 👇 ADDED: Manual Notification Buttons */}
+                                        <ManualNotificationButtons 
+                                            name={apt.patientName}
+                                            phone={apt.phone}
+                                            email={apt.email}
+                                            date={apt.requestedDate}
+                                        />
                                     </td>
                                     <td className="p-4 align-middle text-slate-600">
                                         {format(new Date(apt.requestedDate), "PPP")}
@@ -89,6 +82,60 @@ export function AppointmentsTable({ data }: { data: Appointment[] }) {
                     </tbody>
                 </table>
             </div>
+        </div>
+    );
+}
+
+// --- NEW COMPONENT: Manual Notification Buttons ---
+function ManualNotificationButtons({ 
+    name, 
+    phone, 
+    email, 
+    date 
+}: { 
+    name: string; 
+    phone: string; 
+    email: string; 
+    date: Date 
+}) {
+    // 1. Format the Date and Time for the message
+    const dateObj = new Date(date);
+    const dateStr = dateObj.toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric' });
+    const timeStr = dateObj.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' });
+
+    // 2. Prepare the Message Text
+    const messageBody = `Hello ${name}, your appointment at TrueSmile is confirmed for ${dateStr} at ${timeStr}. Please arrive 10 mins early.`;
+
+    // 3. Create WhatsApp Link
+    // Remove non-numeric chars from phone for the link itself
+    const cleanPhone = phone.replace(/\D/g, ''); 
+    const whatsappLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageBody)}`;
+
+    // 4. Create Email Link
+    const emailSubject = "Appointment Confirmation - TrueSmile";
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(messageBody)}`;
+
+    return (
+        <div className="flex gap-2 mt-1">
+            {/* WhatsApp Button */}
+            <a 
+                href={whatsappLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition-colors"
+                title="Send WhatsApp"
+            >
+                <MessageCircle size={16} />
+            </a>
+
+            {/* Email Button */}
+            <a 
+                href={mailtoLink}
+                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors"
+                title="Send Email"
+            >
+                <Mail size={16} />
+            </a>
         </div>
     );
 }
