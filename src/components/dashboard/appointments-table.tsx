@@ -89,6 +89,7 @@ export function AppointmentsTable({ data }: { data: Appointment[] }) {
 // --- NEW COMPONENT: Manual Notification Buttons ---
 // --- NEW COMPONENT: Manual Notification Buttons ---
 // --- NEW COMPONENT: Manual Notification Buttons ---
+// --- NEW COMPONENT: Manual Notification Buttons ---
 function ManualNotificationButtons({
     name,
     phone,
@@ -102,43 +103,78 @@ function ManualNotificationButtons({
 }) {
     // 1. Format the Date and Time
     const dateObj = new Date(date);
-    const dateStr = dateObj.toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric' });
+    const dateStr = dateObj.toLocaleDateString("en-US", { weekday: 'long', month: 'long', day: 'numeric' });
     const timeStr = dateObj.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' });
 
-    // 2. Prepare the Message Text
-    const messageBody = `Hello ${name}, your appointment at TrueSmile is confirmed for ${dateStr} at ${timeStr}. Please arrive 10 mins early.`;
+    // ---------------------------------------------------------
+    // 🎨 WHATSAPP MESSAGE DESIGN
+    // WhatsApp supports *bold*, _italics_, and ~strikethrough~
+    // ---------------------------------------------------------
+    const waMessage =
+        `*APPOINTMENT CONFIRMED* ✅
 
-    // 3. Create WhatsApp Link
+Hello ${name} 👋,
+
+Your appointment has been successfully booked at *TrueSmile Clinic*.
+
+📅 *Date:* ${dateStr}
+⏰ *Time:* ${timeStr}
+
+_Please arrive 10 minutes early to complete any necessary paperwork._
+
+See you soon! 🦷✨`;
+
+    // ---------------------------------------------------------
+    // 📧 GMAIL MESSAGE DESIGN
+    // Gmail Links only support PLAIN TEXT (No Bold/Colors allowed via URL)
+    // We use emojis and spacing to make it look professional.
+    // ---------------------------------------------------------
+    const emailSubject = `✅ Appointment Confirmed - ${dateStr}`;
+    const emailBody =
+        `Hello ${name},
+
+Your appointment has been successfully booked.
+
+📅 Date: ${dateStr}
+⏰ Time: ${timeStr}
+📍 Location: TrueSmile Clinic
+
+Please arrive 10 minutes early.
+
+Best regards,
+TrueSmile Team`;
+
+    // 3. Create Links
     const cleanPhone = phone.replace(/\D/g, '');
-    const whatsappLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageBody)}`;
+    const whatsappLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMessage)}`;
 
-    // 4. Create GMAIL Link (Web-based)
-    // This forces Gmail to open in the browser instead of looking for a desktop app
-    const emailSubject = "Appointment Confirmation - TrueSmile";
-    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(messageBody)}`;
+    // Note: We use 'encodeURIComponent' to handle spaces and emojis correctly in URLs
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
     return (
-        <div className="flex gap-2 mt-1">
+        <div className="flex gap-2 mt-2">
             {/* WhatsApp Button */}
             <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition-colors"
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-md bg-green-100 text-green-700 hover:bg-green-200 transition-colors gap-2 border border-green-200"
                 title="Send WhatsApp"
             >
-                <MessageCircle size={16} />
+                <MessageCircle size={14} />
+                <span className="text-xs font-semibold">WhatsApp</span>
             </a>
 
-            {/* Email Button (Opens Gmail Web) */}
+            {/* Gmail Button */}
             <a
                 href={gmailLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors"
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors gap-2 border border-blue-200"
                 title="Send via Gmail"
             >
-                <Mail size={16} />
+                <Mail size={14} />
+                <span className="text-xs font-semibold">Gmail</span>
             </a>
         </div>
     );
