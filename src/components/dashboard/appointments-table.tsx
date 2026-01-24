@@ -88,6 +88,7 @@ export function AppointmentsTable({ data }: { data: Appointment[] }) {
 
 // --- NEW COMPONENT: Manual Notification Buttons ---
 // --- NEW COMPONENT: Manual Notification Buttons ---
+// --- NEW COMPONENT: Manual Notification Buttons ---
 function ManualNotificationButtons({
     name,
     phone,
@@ -111,9 +112,10 @@ function ManualNotificationButtons({
     const cleanPhone = phone.replace(/\D/g, '');
     const whatsappLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageBody)}`;
 
-    // 4. Create Email Link
+    // 4. Create GMAIL Link (Web-based)
+    // This forces Gmail to open in the browser instead of looking for a desktop app
     const emailSubject = "Appointment Confirmation - TrueSmile";
-    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(messageBody)}`;
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(messageBody)}`;
 
     return (
         <div className="flex gap-2 mt-1">
@@ -128,13 +130,13 @@ function ManualNotificationButtons({
                 <MessageCircle size={16} />
             </a>
 
-            {/* Email Button */}
+            {/* Email Button (Opens Gmail Web) */}
             <a
-                href={mailtoLink}
-                target="_blank"             // 👈 ADDED: Forces browser to handle the action
-                rel="noopener noreferrer"   // 👈 ADDED: Security best practice
+                href={gmailLink}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors"
-                title="Send Email"
+                title="Send via Gmail"
             >
                 <Mail size={16} />
             </a>
