@@ -49,7 +49,7 @@ export function AppointmentsTable({ data }: { data: Appointment[] }) {
                                             <span className="text-xs text-slate-500">{apt.phone}</span>
                                         </div>
                                         {/* 👇 ADDED: Manual Notification Buttons */}
-                                        <ManualNotificationButtons 
+                                        <ManualNotificationButtons
                                             name={apt.patientName}
                                             phone={apt.phone}
                                             email={apt.email}
@@ -87,18 +87,19 @@ export function AppointmentsTable({ data }: { data: Appointment[] }) {
 }
 
 // --- NEW COMPONENT: Manual Notification Buttons ---
-function ManualNotificationButtons({ 
-    name, 
-    phone, 
-    email, 
-    date 
-}: { 
-    name: string; 
-    phone: string; 
-    email: string; 
-    date: Date 
+// --- NEW COMPONENT: Manual Notification Buttons ---
+function ManualNotificationButtons({
+    name,
+    phone,
+    email,
+    date
+}: {
+    name: string;
+    phone: string;
+    email: string;
+    date: Date
 }) {
-    // 1. Format the Date and Time for the message
+    // 1. Format the Date and Time
     const dateObj = new Date(date);
     const dateStr = dateObj.toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric' });
     const timeStr = dateObj.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' });
@@ -107,8 +108,7 @@ function ManualNotificationButtons({
     const messageBody = `Hello ${name}, your appointment at TrueSmile is confirmed for ${dateStr} at ${timeStr}. Please arrive 10 mins early.`;
 
     // 3. Create WhatsApp Link
-    // Remove non-numeric chars from phone for the link itself
-    const cleanPhone = phone.replace(/\D/g, ''); 
+    const cleanPhone = phone.replace(/\D/g, '');
     const whatsappLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageBody)}`;
 
     // 4. Create Email Link
@@ -118,9 +118,9 @@ function ManualNotificationButtons({
     return (
         <div className="flex gap-2 mt-1">
             {/* WhatsApp Button */}
-            <a 
-                href={whatsappLink} 
-                target="_blank" 
+            <a
+                href={whatsappLink}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition-colors"
                 title="Send WhatsApp"
@@ -129,8 +129,10 @@ function ManualNotificationButtons({
             </a>
 
             {/* Email Button */}
-            <a 
+            <a
                 href={mailtoLink}
+                target="_blank"             // 👈 ADDED: Forces browser to handle the action
+                rel="noopener noreferrer"   // 👈 ADDED: Security best practice
                 className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors"
                 title="Send Email"
             >
