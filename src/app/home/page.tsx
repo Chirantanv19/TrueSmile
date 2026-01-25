@@ -65,9 +65,9 @@ export default function HomePage() {
                     </section>
 
                     {/* 4. The Lab */}
-                    <div className="bg-white border-y border-slate-200">
+                    {/* <div className="bg-white border-y border-slate-200">
                         <TheLab />
-                    </div>
+                    </div> */}
 
                     {/* 5. Process */}
                     <ProcessTimeline />
