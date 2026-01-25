@@ -26,7 +26,7 @@ const steps = [
 export default function ProcessTimeline() {
   return (
     // Changed: bg-white instead of dark background
-    <section className="relative py-32 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden bg-white">
+    <section className="relative py-32 px-6 md:px-12 max-w-8xl mx-auto overflow-hidden bg-white">
 
       {/* Background Connecting Line (Desktop) - Changed to slate-100 */}
       <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent -translate-y-12 hidden md:block" />
