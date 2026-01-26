@@ -54,6 +54,7 @@ export function AppointmentsTable({ data }: { data: Appointment[] }) {
                                             phone={apt.phone}
                                             email={apt.email}
                                             date={apt.requestedDate}
+                                            slotStart={apt.requestedDate}
                                         />
                                     </td>
                                     <td className="p-4 align-middle text-slate-600">
@@ -94,17 +95,22 @@ function ManualNotificationButtons({
     name,
     phone,
     email,
-    date
+    date,
+    slotStart
+
 }: {
     name: string;
     phone: string;
     email: string;
     date: Date
+    slotStart: Date;
 }) {
     // 1. Format the Date and Time
     const dateObj = new Date(date);
+    const slotObhj = new Date(slotStart);
     const dateStr = dateObj.toLocaleDateString("en-US", { weekday: 'long', month: 'long', day: 'numeric' });
-    const timeStr = dateObj.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' });
+    const timeStr = slotObhj.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' });
+    // const timeStr = slotStart.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })  ;
 
     // ---------------------------------------------------------
     // 🎨 WHATSAPP MESSAGE DESIGN
