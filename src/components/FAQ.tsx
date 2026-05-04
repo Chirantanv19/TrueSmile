@@ -24,10 +24,10 @@ const faqs = [
     q: "Do you offer international consultations?",
     a: "Yes, we prioritize our global clients. We can conduct a full preliminary assessment via 3D video link and coordinate your travel for the physical procedures."
   },
-  {
-    q: "Is there a warranty on the structural work?",
-    a: "Yes. All our architectural procedures come with a 5-year structural integrity guarantee, provided you attend your bi-annual maintenance scans."
-  },
+  // {
+  //   q: "Is there a warranty on the structural work?",
+  //   a: "Yes. All our architectural procedures come with a 5-year structural integrity guarantee, provided you attend your bi-annual maintenance scans."
+  // },
   {
     q: "Do you offer sedation for anxious patients?",
     a: "We provide a full range of comfort options, from nitrous oxide to IV sedation, ensuring a zero-stress, sleep-like experience during treatment."
